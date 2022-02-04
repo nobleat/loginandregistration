@@ -1,0 +1,19 @@
+*{
+    margin: 0 auto;
+}
+
+body{
+    background-color: rgb(102, 100, 104);
+    text-align: center;
+}
+
+h3{
+    font-weight: lighter;
+}
+
+.input-group{
+    margin-left: 30px;
+    padding: 5px;
+    width: 500px;
+}
+
