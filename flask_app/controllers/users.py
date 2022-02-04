@@ -27,3 +27,8 @@ def register():
 def create_user():
     User.save(request.form)
     return render_template('success.html')
+
+@app.route('/logged', method=['POST'])
+def login():
+    session['email']=request.form['email']
+    
