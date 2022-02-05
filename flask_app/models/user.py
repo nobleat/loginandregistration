@@ -7,6 +7,9 @@ bcrypt = Bcrypt(app)
 
 db="log_and_reg"
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+PASS_REGEX = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$")
+
+
 
 class User:
     def __init__(self,data):
@@ -33,8 +36,8 @@ class User:
         if User.get_by_email({'email':data['email']}):
             flash('Email is already in use.')
             is_valid=False
-        if len(data['password']) <8:
-            flash("Password does not meet the requirements. Please try again.")
+        if not PASS_REGEX.match(data['password']):
+            flash("Password must contain at least 8 characters, 1 Uppercase, 1 Lowercase, 1 Number!","register")
             is_valid=False
         if data['password'] != data['confirm_password']:
             flash('Passwords do not match. Please try again.')
@@ -43,7 +46,7 @@ class User:
 
     @classmethod
     def get_by_email(cls, data):
-        query='Select * from users where email = %(email)s'
+        query='SELECT * FROM users WHERE email = %(email)s'
         data=connectToMySQL(db).query_db(query,data)
         if data== ():
             return False

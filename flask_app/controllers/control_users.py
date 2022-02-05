@@ -1,3 +1,4 @@
+import logging
 from flask_app import app
 from flask import render_template, redirect,session,request, flash
 from flask_app.models.user import User
@@ -21,14 +22,20 @@ def register():
         }
     user_id=User.save(data)
     session['logged_in_user']=user_id
-    return redirect ('/success')
+    return render_template('success.html', user=User.get_by_email(data))
 
-@app.route('/success')
-def create_user():
-    User.save(request.form)
-    return render_template('success.html')
 
-@app.route('/logged', method=['POST'])
-def login():
-    session['email']=request.form['email']
-    
+# ---registration--
+
+@app.route("/login", methods=['post'])
+def log_in():
+    data={'email': request.form['email']}
+    userdb = User.get_by_email(data)
+    if not userdb:
+        flash ("Invalid Email or Password")
+        return redirect('/')
+    if not bcrypt.check_password_hash(userdb.password, request.form['password']):
+        flash ("Invalid Email or Password")
+        return redirect ('/')
+    session['logged_in_user']=userdb.id
+    return render_template('success.html', user=User.get_by_email(data))
