@@ -21,7 +21,7 @@ def register():
         'password':pw_hash
         }
     user_id=User.save(data)
-    session['logged_in_user']=user_id
+    session['user.id']=user_id
     return render_template('success.html', user=User.get_by_email(data))
 
 
@@ -37,10 +37,19 @@ def log_in():
     if not bcrypt.check_password_hash(userdb.password, request.form['password']):
         flash ("Invalid Email or Password")
         return redirect ('/')
-    session['logged_in_user']=userdb.id
+    session['user.id']=userdb.id
     return render_template('success.html', user=User.get_by_email(data))
 
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/')
+
+@app.route('/home')
+def home():
+    if 'user_id' not in session:
+        return redirect('/logout')
+    data ={
+        'id': session['user_id']
+    }
+    return render_template("success.html",user=User.get_by_id(data))

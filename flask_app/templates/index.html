@@ -10,7 +10,7 @@
 </head>
 <body>
     <div style="width: 600px; height: 600px; background-color: rgb(173, 96, 228); margin: auto; margin-top: 30px;">
-        <h1 style="color: whitesmoke; text-align: center;">Futurama Survey</h1>
+        <h1 style="color: whitesmoke; text-align: center;">Register</h1>
         <form action='/user/register' method = 'POST'>
             {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -48,6 +48,7 @@
                 </select>
             </div> -->
         </form>
+        <h1 style="color: whitesmoke; text-align: center;">Login</h1>
             <form action='/login', method='post'>
                 <div class="input-group">
                     <label class="input-group-text">Email</label>

@@ -53,8 +53,16 @@ class User:
         else:
             return cls(data[0])
 
-
     @classmethod
     def save(cls, data):
         query = 'INSERT INTO users (first_name, last_name, email, password) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s);'
         return connectToMySQL(db).query_db(query,data)
+
+    @classmethod
+    def get_by_id(cls, data):
+        query='SELECT * FROM users WHERE id = %(id)s'
+        data=connectToMySQL(db).query_db(query,data)
+        if data== ():
+            return False
+        else:
+            return cls(data[0])
