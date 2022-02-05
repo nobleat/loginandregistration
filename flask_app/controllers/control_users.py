@@ -39,3 +39,8 @@ def log_in():
         return redirect ('/')
     session['logged_in_user']=userdb.id
     return render_template('success.html', user=User.get_by_email(data))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
